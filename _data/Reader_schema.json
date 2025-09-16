@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Reader",
-  "description": "A reader for the manifest store.",
+  "description": "Use a Reader to read and validate a manifest store.",
   "type": "object",
   "required": [
     "manifests"
@@ -75,6 +75,76 @@
             "string",
             "null"
           ]
+        }
+      }
+    },
+    "AssertionMetadata": {
+      "description": "The AssertionMetadata structure can be used as part of other assertions or on its own to reference others",
+      "type": "object",
+      "properties": {
+        "dataSource": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DataSource"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dateTime": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DateT"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "localizations": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HashedUri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "regionOfInterest": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RegionOfInterest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reviewRatings": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ReviewRating"
+          }
         }
       }
     },
@@ -335,12 +405,21 @@
           "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Metadata`]: crate::Metadata",
           "anyOf": [
             {
-              "$ref": "#/definitions/Metadata"
+              "$ref": "#/definitions/AssertionMetadata"
             },
             {
               "type": "null"
             }
           ]
+        },
+        "ocsp_responses": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ResourceRef"
+          }
         },
         "provenance": {
           "description": "URI from `dcterms:provenance` in XMP metadata.",
@@ -460,14 +539,14 @@
           }
         },
         "claim_generator": {
-          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
+          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax.",
           "type": [
             "string",
             "null"
           ]
         },
         "claim_generator_info": {
-          "description": "A list of claim generator info data identifying the software/hardware/system produced this claim",
+          "description": "A list of claim generator info data identifying the software/hardware/system produced this claim.",
           "type": [
             "array",
             "null"
@@ -501,7 +580,7 @@
         },
         "instance_id": {
           "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-          "default": "xmp:iid:424afed8-279d-4793-a279-b80a00b8c32b",
+          "default": "xmp:iid:b017de99-3d68-40d0-9068-9e1fb309e99f",
           "type": "string"
         },
         "label": {
@@ -511,13 +590,13 @@
           ]
         },
         "metadata": {
-          "description": "A list of user metadata for this claim",
+          "description": "A list of user metadata for this claim.",
           "type": [
             "array",
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/Metadata"
+            "$ref": "#/definitions/AssertionMetadata"
           }
         },
         "redactions": {
@@ -568,7 +647,7 @@
           ]
         },
         "vendor": {
-          "description": "Optional prefix added to the generated Manifest Label This is typically Internet domain name for the vendor (i.e. `adobe`)",
+          "description": "Optional prefix added to the generated Manifest label. This is typically an internet domain name for the vendor (i.e. `adobe`).",
           "type": [
             "string",
             "null"
@@ -640,62 +719,6 @@
           }
         }
       ]
-    },
-    "Metadata": {
-      "description": "The Metadata structure can be used as part of other assertions or on its own to reference others",
-      "type": "object",
-      "properties": {
-        "dataSource": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/DataSource"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "dateTime": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/DateT"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "reference": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HashedUri"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "regionOfInterest": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/RegionOfInterest"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "reviewRatings": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "$ref": "#/definitions/ReviewRating"
-          }
-        }
-      },
-      "additionalProperties": true
     },
     "Range": {
       "description": "A spatial, temporal, frame, or textual range describing the region of interest.",
@@ -810,7 +833,7 @@
       ]
     },
     "RegionOfInterest": {
-      "description": "A region of interest within an asset describing the change.\n\nThis struct can be used from [`Action::changes`][crate::assertions::Action::changes] or [`Metadata::region_of_interest`][crate::assertions::Metadata::region_of_interest].",
+      "description": "A region of interest within an asset describing the change.\n\nThis struct can be used from [`Action::changes`][crate::assertions::Action::changes], [`AssertionMetadata::region_of_interest`][crate::assertions::AssertionMetadata::region_of_interest], or [`SoftBindingScope::region`][crate::assertions::soft_binding::SoftBindingScope::region].",
       "type": "object",
       "required": [
         "region"
@@ -834,7 +857,7 @@
           "description": "Additional information about the asset.",
           "anyOf": [
             {
-              "$ref": "#/definitions/Metadata"
+              "$ref": "#/definitions/AssertionMetadata"
             },
             {
               "type": "null"
@@ -876,11 +899,29 @@
       }
     },
     "Relationship": {
-      "type": "string",
-      "enum": [
-        "parentOf",
-        "componentOf",
-        "inputTo"
+      "description": "The relationship of the ingredient to the current asset.",
+      "oneOf": [
+        {
+          "description": "The current asset is derived from this ingredient.",
+          "type": "string",
+          "enum": [
+            "parentOf"
+          ]
+        },
+        {
+          "description": "The current asset is a part of this ingredient.",
+          "type": "string",
+          "enum": [
+            "componentOf"
+          ]
+        },
+        {
+          "description": "The ingredient was used as an input to a computational process to create or modify the asset.",
+          "type": "string",
+          "enum": [
+            "inputTo"
+          ]
+        }
       ]
     },
     "ResourceRef": {
@@ -958,7 +999,7 @@
       }
     },
     "ReviewRating": {
-      "description": "A rating on an Assertion.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_claim_review>.",
+      "description": "A rating on an Assertion.\n\nSee <https://c2pa.org/specifications/specifications/2.2/specs/C2PA_Specification.html#_review_ratings>.",
       "type": "object",
       "required": [
         "explanation",
@@ -1160,6 +1201,13 @@
         },
         "cert_serial_number": {
           "description": "The serial number of the certificate.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "common_name": {
+          "description": "Human-readable for common name of this certificate.",
           "type": [
             "string",
             "null"
@@ -1466,7 +1514,7 @@
       ]
     },
     "ValidationStatus": {
-      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.",
+      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/2.2/specs/C2PA_Specification.html#_existing_manifests>.",
       "type": "object",
       "required": [
         "code"

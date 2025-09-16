@@ -6,3 +6,4 @@ toc: false
 
 - [Manifest definition JSON schema](/md-schema)
 - [Reader JSON schema](/reader-schema)
+- [Settings JSON schema](/settings-schema)

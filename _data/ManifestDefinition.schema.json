@@ -17,7 +17,7 @@
       "default": [
         {
           "name": "c2pa-rs",
-          "version": "0.64.0"
+          "version": "0.63.0"
         }
       ],
       "type": "array",
@@ -49,7 +49,7 @@
     },
     "instance_id": {
       "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-      "default": "xmp:iid:f8f5adf0-f9ee-4168-8f62-520d718bf08f",
+      "default": "xmp:iid:d93872dd-9629-4f78-a94d-8c807c73a1c7",
       "type": "string"
     },
     "label": {
@@ -145,16 +145,6 @@
       "properties": {
         "data": {
           "$ref": "#/definitions/AssertionData"
-        },
-        "kind": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ManifestAssertionKind"
-            },
-            {
-              "type": "null"
-            }
-          ]
         },
         "label": {
           "type": "string"
@@ -608,16 +598,6 @@
           "type": "string"
         }
       }
-    },
-    "ManifestAssertionKind": {
-      "description": "Assertions in C2PA can be stored in several formats",
-      "type": "string",
-      "enum": [
-        "Cbor",
-        "Json",
-        "Binary",
-        "Uri"
-      ]
     },
     "Range": {
       "description": "A spatial, temporal, frame, or textual range describing the region of interest.",
