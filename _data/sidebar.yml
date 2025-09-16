@@ -16,6 +16,13 @@ children:
     - title: Reader - CAI styling
       url: reader-cai
 
+  - title: Settings
+    url: settings
+    children:
+
+    - title: Settings - CAI styling
+      url: settings-cai
+
   - title: JSON schemas
     url: json-schema-index
     children:
@@ -25,3 +32,6 @@ children:
 
     - title: Reader JSON schema
       url: reader-schema
+
+    - title: Settings JSON schema
+      url: settings-schema
