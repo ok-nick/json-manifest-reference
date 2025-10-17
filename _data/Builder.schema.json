@@ -27,7 +27,7 @@
       "default": [
         {
           "name": "c2pa-rs",
-          "version": "0.63.0"
+          "version": "0.67.1"
         }
       ],
       "type": "array",
@@ -59,7 +59,7 @@
     },
     "instance_id": {
       "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-      "default": "xmp:iid:43913473-de57-43de-b074-17a9e6c222ff",
+      "default": "xmp:iid:9c5256a8-d71f-4cd4-8a0e-21dbf5592188",
       "type": "string"
     },
     "intent": {
@@ -178,6 +178,16 @@
         "data": {
           "$ref": "#/definitions/AssertionData"
         },
+        "kind": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ManifestAssertionKind"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "label": {
           "type": "string"
         }
@@ -294,7 +304,7 @@
           ]
         },
         {
-          "description": "A restricted version of [Edit] for non-editorial changes.\n\nThere must be only one ingredient, as a parent. No changes can be made to the hashed content of the parent. There are additional restrictions on the types of changes that can be made.",
+          "description": "A restricted version of Edit for non-editorial changes.\n\nThere must be only one ingredient, as a parent. No changes can be made to the hashed content of the parent. There are additional restrictions on the types of changes that can be made.",
           "type": "string",
           "enum": [
             "update"
@@ -837,6 +847,16 @@
           "type": "string"
         }
       }
+    },
+    "ManifestAssertionKind": {
+      "description": "Assertions in C2PA can be stored in several formats",
+      "type": "string",
+      "enum": [
+        "Cbor",
+        "Json",
+        "Binary",
+        "Uri"
+      ]
     },
     "Range": {
       "description": "A spatial, temporal, frame, or textual range describing the region of interest.",
